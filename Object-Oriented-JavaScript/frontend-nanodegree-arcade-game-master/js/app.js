@@ -1,11 +1,22 @@
+var ADD_X = 101, // horizontal addition
+    ADD_Y = 83, // vertical addition
+    TOP = -12, 
+    // initial location of player
+    INIT_X = 2 * ADD_X, 
+    INIT_Y = TOP + 4 * ADD_Y;
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    //Initial location
+    this.x = x;
+    this.y = y;
+    //Initial speed
+    this.speed = speed;
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +25,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x += this.speed * dt;
+    if (this.x > ADD_X * 5) {
+        this.x = - ADD_X;
+        this.speed = randomSpeed();
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -24,13 +40,59 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function() {
+    this.sprite = 'images/char-boy.png';
+    this.x = INIT_X;
+    this.y = INIT_Y;
+}
 
+// no need
+Player.prototype.update = function () {
+    
+}
+
+//Set the postion of player to initial location
+Player.prototype.reset = function () {
+    this.x = INIT_X;
+    this.y = INIT_Y;
+}
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Player.prototype.handleInput = function(direction) {
+     
+
+    if (direction == 'left') {
+        this.x = Math.max(0, this.x - ADD_X);
+    }
+    else if (direction == 'right') {
+        this.x = Math.min(ADD_X * 4, this.x + ADD_X);
+    }
+    else if (direction == 'up') {
+        this.y = Math.max(TOP + ADD_Y, this.y - ADD_Y);
+    }
+    else {
+        this.y = Math.min(TOP + ADD_Y * 5, this.y + ADD_Y);
+    }
+    
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+function randomSpeed() {
+    return Math.floor(Math.random() * 300 + 100);
+};
+var allEnemies = [];
+allEnemies.push(new Enemy(- ADD_X, TOP + ADD_Y, randomSpeed()));
+allEnemies.push(new Enemy(- ADD_X, TOP + 2 * ADD_Y, randomSpeed()));
+allEnemies.push(new Enemy(- ADD_X, TOP + 3 * ADD_Y, randomSpeed()));
+allEnemies.push(new Enemy(- ADD_X, TOP + ADD_Y, randomSpeed()));
+allEnemies.push(new Enemy(- ADD_X, TOP + 2 * ADD_Y, randomSpeed()));
 
-
+var player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

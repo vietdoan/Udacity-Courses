@@ -78,9 +78,19 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
+    //check if player hit bugs
+    function checkCollisions() {
+        allEnemies.forEach(function(enemy){
+            if (Math.abs(player.x - enemy.x) <= 50 && Math.abs(player.y - enemy.y) <= 40) {
+                player.reset();
+                return;
+            }
+        });
+    }
+    
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function and loops through all of the
