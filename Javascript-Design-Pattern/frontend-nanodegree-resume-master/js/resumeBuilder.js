@@ -51,7 +51,7 @@ var model = {
             "employer": "Localize",
             "title": "Senior Software Developer",
             "location": "Edmonton, Alberta, Canada",
-            "datesWorked": "March 2015 - December 2015",
+            "dates": "March 2015 - December 2015",
             "description": "I was hired to work on Localize's online system, which involved knowledge in C# development, jQuery, knockoutJS, " +
             "SQL Server, Razor templates and Wordpress. I had limited experience with some of these so I learned quickly to become " +
             "productive as soon as possible.  I also lead discussions around better communication between the development team and " +
@@ -62,7 +62,7 @@ var model = {
             "employer": "Enbridge",
             "title": "Software Developer",
             "location": "Edmonton, Alberta, Canada",
-            "datesWorked": "September 2008 - March 2015",
+            "dates": "September 2008 - March 2015",
             "description": "My primary responsibilities involve all aspects of developing and supporting critical software " +
             "applications in a variety of languages including Java, python, C++ and Perl in both greenfield and " +
             "legacy systems.  This work includes, but is not limited to, database design, software architecture design, high level and " +
@@ -74,7 +74,7 @@ var model = {
             "employer": "Epcor",
             "title": "Systems Analyst",
             "location": "Edmonton, Alberta, Canada",
-            "datesWorked": "September 2003 - April 2006",
+            "dates": "September 2003 - April 2006",
             "description": "I worked in a few different capacities here from internal application support of " +
             "internal users using third party customized applications to working on internal software applications " +
             "built using Oracle PL/SQL.  I also learned and used PHP to develop an internal web site to facilitate " +
@@ -84,7 +84,7 @@ var model = {
             "employer": "Matrikon",
             "title": "Programmer",
             "location": "Edmonton, Alberta, Canada",
-            "datesWorked": "March 2002 - September 2003",
+            "dates": "March 2002 - September 2003",
             "description": "I developed software for external clients in a variety of languages including C#.  This " +
             "included design, development and deployment of back end systems as well as front end graphical user interfaces."
         },
@@ -92,7 +92,7 @@ var model = {
             "employer": "University of Windsor",
             "title": "Teaching Assisstant / Computer Centre Support / Computer Science Tutor",
             "location": "Windsor, Ontario, Canada",
-            "datesWorked": "September 1998 - April 2001",
+            "dates": "September 1998 - April 2001",
             "description": "I supervised labs for the second year advanced programming class in C as a teaching " +
             "assisstant.  At the University Computer Centre I helped students with use of the computing resources " +
             "available.  As a computer science tutor I aided students with class work and helped them through problems."
@@ -242,11 +242,30 @@ var viewEducation = {
 
 var viewWork = {
     init: function () {
+        this.work = octopus.getWork();
+        this.HTMLworkStart = '<div class="work-entry"></div>';
+        this.HTMLworkEmployer = '<a href="#">%data%';
+        this.HTMLworkTitle = ' - %data%</a>';
+        this.HTMLworkDates = '<div class="date-text">%data%</div>';
+        this.HTMLworkLocation = '<div class="location-text">%data%</div>';
+        this.HTMLworkDescription = '<p><br>%data%</p>';
         this.render();
     },
 
     render: function () {
+        var formarttedWork = [],
+            jobs = this.work.jobs;
+        
+        for(let i = 0; i < jobs.length; i++)
+            formarttedWork.push(this.HTMLworkEmployer.replace('%data%', jobs[i].employer)
+                                + this.HTMLworkTitle.replace('%data%', jobs[i].title)
+                                + this.HTMLworkDates.replace('%data%', jobs[i].dates)
+                                + this.HTMLworkLocation.replace('%data%', jobs[i].location)
+                                + this.HTMLworkDescription.replace('%data%', jobs[i].description));
 
+        $('#workExperience').append(HTMLworkStart);
+        for(let i = 0; i < formarttedWork.length; i++)
+            $('.work-entry').prepend(formarttedWork[i]);
     }
 };
 
