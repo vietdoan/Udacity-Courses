@@ -34,12 +34,14 @@ var model = {
             {
                 school: 'Udacity',
                 title: 'Object-Oriented Javascript',
-                dates: 'February 2017'
+                dates: 'February 2017',
+                url: 'https://www.udacity.com'
             },
             {
                 school: 'Udacity',
                 title: 'Javascript Design Patterns',
-                dates: 'February 2017'
+                dates: 'February 2017',
+                url: 'https://www.udacity.com'
             }
         ]
     },
@@ -166,7 +168,7 @@ var viewBio = {
     render: function () {
         var formarttedHeaderName = this.HTMLheaderName.replace('%data%', this.bio.name);
         var formarttedHeaderRole = this.HTMLheaderName.replace('%data%', this.bio.role);
-        
+
         var formarttedContacts = [];
         for (let contact in this.bio.contacts) {
             formarttedContacts.push(this.HTMLcontactGeneric.replace('%contact%', contact).replace('%data%', this.bio.contacts[contact]));
@@ -174,16 +176,16 @@ var viewBio = {
 
         var formarttedBioPic = this.HTMLbioPic.replace('%data%', this.bio.biopic);
         var formarttedWelcomeMsg = this.HTMLwelcomeMsg.replace('%data%', this.bio.welcomeMessage);
-        
+
         var formarttedSkills = [];
-        for (let i = 0; i < this.bio.skills.length; i++) 
+        for (let i = 0; i < this.bio.skills.length; i++)
             formarttedSkills.push(this.HTMLskills.replace('%data%', this.bio.skills[i]));
 
         $('#header').prepend(formarttedHeaderRole).prepend(formarttedHeaderName);
 
         for (let i = 0; i < formarttedContacts.length; i++)
             $('#topContacts').append(formarttedContacts[i]);
-        
+
         $('#header').append(formarttedBioPic).append(formarttedWelcomeMsg).append(this.HTMLskillsStart);
 
         for (let i = 0; i < formarttedSkills.length; i++)
@@ -193,11 +195,48 @@ var viewBio = {
 
 var viewEducation = {
     init: function () {
+        this.education = octopus.getEducation();
+        this.HTMLschoolStart = '<div class="education-entry"></div>';
+        this.HTMLschoolName = '<a href="#">%data%';
+        this.HTMLschoolDegree = ' -- %data%</a>';
+        this.HTMLschoolDates = '<div class="date-text">%data%</div>';
+        this.HTMLschoolLocation = '<div class="location-text">%data%</div>';
+        this.HTMLschoolMajor = '<em><br>Major: %data%</em>';
+
+        this.HTMLonlineClasses = '<h3>Online Classes</h3>';
+        this.HTMLonlineTitle = '<a href="#">%data%';
+        this.HTMLonlineSchool = ' - %data%</a>';
+        this.HTMLonlineDates = '<div class="date-text">%data%</div>';
+        this.HTMLonlineURL = '<br><a href="#">%data%</a>';
         this.render();
     },
 
     render: function () {
+        var formarttedSchools = [],
+            schools = this.education.schools;
+            formarttedOnlineCourses = [],
+            onlineCourses = this.education.onlineCourses;
 
+        for (let i = 0; i < schools.length; i++)
+            formarttedSchools.push(this.HTMLschoolName.replace('%data%', schools[i].name) 
+                                + this.HTMLschoolDegree.replace('%data%', schools[i].degree)
+                                + this.HTMLschoolDates.replace('%data%', schools[i].dates)
+                                + this.HTMLschoolLocation.replace('%data%', schools[i].location)
+                                + this.HTMLschoolMajor.replace('%data%', schools[i].major));
+        
+        for (let i = 0; i < onlineCourses.length; i++) 
+            formarttedOnlineCourses.push(this.HTMLonlineTitle.replace('%data%', onlineCourses[i].title)
+                                        + this.HTMLonlineSchool.replace('%data%', onlineCourses[i].school)
+                                        + this.HTMLonlineDates.replace('%data%', onlineCourses[i].dates)
+                                        + this.HTMLonlineURL.replace('%data%', onlineCourses[i].url));
+        $('#education').append(this.HTMLschoolStart);
+        for (let i = 0; i < formarttedSchools.length; i++)
+            $('.education-entry').append(formarttedSchools[i]);
+        
+        $('.education-entry').append(this.HTMLonlineClasses);
+        for (let i = 0; i < formarttedOnlineCourses.length; i++)
+            $('.education-entry').append(formarttedOnlineCourses[i]);
+        
     }
 };
 
