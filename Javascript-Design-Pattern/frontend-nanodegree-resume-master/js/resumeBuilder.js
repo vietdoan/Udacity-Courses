@@ -101,25 +101,22 @@ var model = {
 
     projects: [{
         "title": "HTML5 Canvas Game",
-        "datesWorked": "December 2014 - January 2015",
+        "dates": "December 2014 - January 2015",
         "description": "Created an online game using HTML5 Canvas as part of Udacity's Front-End Web Developer " +
         "Nanodegree.",
-        "images": ["images/frogger.jpg"],
         "url": "http://www.cherylcourt.ca/frogger"
     },
     {
         "title": "Online Portfolio",
-        "datesWorked": "October 2014",
+        "dates": "October 2014",
         "description": "Created an online portfolio of work as part of Udacity's Front-End Web Developer " +
         "Nanodegree.",
-        "images": ["images/portfolio.jpg"],
         "url": "http://www.cherylcourt.ca/"
     },
     {
         "title": "Web Development Wiki",
-        "datesWorked": "June 2014 - August 2014",
+        "dates": "June 2014 - August 2014",
         "description": "Created an online wiki for Udacity's Web Development Course.",
-        "images": ["images/web.jpg"],
         "url": "http://helpful-kit-572.appspot.com/"
     }]
 };
@@ -144,7 +141,7 @@ var octopus = {
         return model.work;
     },
 
-    getProject: function () {
+    getProjects: function () {
         return model.projects;
     }
 };
@@ -183,8 +180,10 @@ var viewBio = {
 
         $('#header').prepend(formarttedHeaderRole).prepend(formarttedHeaderName);
 
-        for (let i = 0; i < formarttedContacts.length; i++)
+        for (let i = 0; i < formarttedContacts.length; i++) {
             $('#topContacts').append(formarttedContacts[i]);
+            $('#footerContacts').append(formarttedContacts[i]);
+        }
 
         $('#header').append(formarttedBioPic).append(formarttedWelcomeMsg).append(this.HTMLskillsStart);
 
@@ -214,29 +213,29 @@ var viewEducation = {
     render: function () {
         var formarttedSchools = [],
             schools = this.education.schools;
-            formarttedOnlineCourses = [],
+        formarttedOnlineCourses = [],
             onlineCourses = this.education.onlineCourses;
 
         for (let i = 0; i < schools.length; i++)
-            formarttedSchools.push(this.HTMLschoolName.replace('%data%', schools[i].name) 
-                                + this.HTMLschoolDegree.replace('%data%', schools[i].degree)
-                                + this.HTMLschoolDates.replace('%data%', schools[i].dates)
-                                + this.HTMLschoolLocation.replace('%data%', schools[i].location)
-                                + this.HTMLschoolMajor.replace('%data%', schools[i].major));
-        
-        for (let i = 0; i < onlineCourses.length; i++) 
+            formarttedSchools.push(this.HTMLschoolName.replace('%data%', schools[i].name)
+                + this.HTMLschoolDegree.replace('%data%', schools[i].degree)
+                + this.HTMLschoolDates.replace('%data%', schools[i].dates)
+                + this.HTMLschoolLocation.replace('%data%', schools[i].location)
+                + this.HTMLschoolMajor.replace('%data%', schools[i].major));
+
+        for (let i = 0; i < onlineCourses.length; i++)
             formarttedOnlineCourses.push(this.HTMLonlineTitle.replace('%data%', onlineCourses[i].title)
-                                        + this.HTMLonlineSchool.replace('%data%', onlineCourses[i].school)
-                                        + this.HTMLonlineDates.replace('%data%', onlineCourses[i].dates)
-                                        + this.HTMLonlineURL.replace('%data%', onlineCourses[i].url));
+                + this.HTMLonlineSchool.replace('%data%', onlineCourses[i].school)
+                + this.HTMLonlineDates.replace('%data%', onlineCourses[i].dates)
+                + this.HTMLonlineURL.replace('%data%', onlineCourses[i].url));
         $('#education').append(this.HTMLschoolStart);
         for (let i = 0; i < formarttedSchools.length; i++)
             $('.education-entry').append(formarttedSchools[i]);
-        
+
         $('.education-entry').append(this.HTMLonlineClasses);
         for (let i = 0; i < formarttedOnlineCourses.length; i++)
             $('.education-entry').append(formarttedOnlineCourses[i]);
-        
+
     }
 };
 
@@ -255,27 +254,43 @@ var viewWork = {
     render: function () {
         var formarttedWork = [],
             jobs = this.work.jobs;
-        
-        for(let i = 0; i < jobs.length; i++)
+
+        for (let i = 0; i < jobs.length; i++)
             formarttedWork.push(this.HTMLworkEmployer.replace('%data%', jobs[i].employer)
-                                + this.HTMLworkTitle.replace('%data%', jobs[i].title)
-                                + this.HTMLworkDates.replace('%data%', jobs[i].dates)
-                                + this.HTMLworkLocation.replace('%data%', jobs[i].location)
-                                + this.HTMLworkDescription.replace('%data%', jobs[i].description));
+                + this.HTMLworkTitle.replace('%data%', jobs[i].title)
+                + this.HTMLworkDates.replace('%data%', jobs[i].dates)
+                + this.HTMLworkLocation.replace('%data%', jobs[i].location)
+                + this.HTMLworkDescription.replace('%data%', jobs[i].description));
 
         $('#workExperience').append(HTMLworkStart);
-        for(let i = 0; i < formarttedWork.length; i++)
+        for (let i = 0; i < formarttedWork.length; i++)
             $('.work-entry').prepend(formarttedWork[i]);
     }
 };
 
 var viewProjects = {
     init: function () {
+        this.projects = octopus.getProjects();
+        this.HTMLprojectStart = '<div class="project-entry"></div>';
+        this.HTMLprojectTitle = '<a href="#">%data%</a>';
+        this.HTMLprojectDates = '<div class="date-text">%data%</div>';
+        this.HTMLprojectDescription = '<p><br>%data%</p>';
+        this.HTMLprojectImage = '<img src="%data%">';
         this.render();
     },
 
     render: function () {
+        var formarttedProjects = [],
+            projects = this.projects;
+        
+        for (let i = 0; i < projects.length; i++)
+            formarttedProjects.push(this.HTMLprojectTitle.replace('%data%', projects[i].title)
+                + this.HTMLprojectDates.replace('%data%', projects[i].dates)
+                + this.HTMLprojectDescription.replace('%data%', projects[i].description));
 
+        $('#projects').append(this.HTMLprojectStart);
+        for (let i = 0; i < formarttedProjects.length; i++)
+            $('.project-entry').append(formarttedProjects[i]);
     }
 
 };
