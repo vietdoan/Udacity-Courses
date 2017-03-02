@@ -1,0 +1,30 @@
+html, body {
+    height: 100%;
+    padding: 0;
+}
+
+html {
+    margin: 0;
+}
+
+body {
+    margin: 0 30px;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 20px;
+}
+#ggmap {
+    height: 400px;
+    margin: 20px 0px;
+}
+
+input[type=text] {
+    font-size: 80%;
+    width: 300px;
+    padding: 8px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
