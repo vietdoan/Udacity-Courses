@@ -10,21 +10,75 @@ html {
 body {
     margin: 0 30px;
 }
-h1, h2, h3, h4, h5, h6 {
-    margin-top: 20px;
-}
-#ggmap {
-    height: 400px;
-    margin: 20px 0px;
+
+h4, p {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
-input[type=text] {
-    font-size: 80%;
-    width: 300px;
-    padding: 8px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+ul {
+    list-style: none;
+    padding-left: 0px;
 }
+
+li {
+    font-size: 90%;
+    border-bottom: 1px solid;
+}
+
+#ggmap {
+    height: 400px;
+    margin-bottom: 20px;
+}
+
+#search-field {
+    margin-left: 0px;
+}
+
+.fl-left {
+    float: left;
+}
+
+.bg-info {
+    padding: 5px 10px;
+}
+
+
+
+.bg-info .btn {
+    float: right;
+}
+
+.res-container {
+    float:left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.res-container:hover {
+    border: 1px solid #D3D3D3;
+    cursor: pointer;
+}
+
+.res-img {
+    float: left;
+    text-align: center;
+}
+
+.res-img img {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+}
+.res-item {
+    float: left;
+    padding: 5px 10px 5px 5px;
+    
+}
+
+.res-snipet-image {
+    float: left;
+    width: 32px;
+    height: 32px;
+    padding: 5px;
+}
+

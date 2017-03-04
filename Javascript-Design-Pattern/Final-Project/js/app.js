@@ -1,4 +1,13 @@
-var Map = function () {
+var Location = function (restaurant) {
+    this.res = restaurant;
+    this.rating_img = 'img/small_' + Math.round(this.res.rating - 0.5);
+    if (Math.round(this.res.rating) != this.res.rating) 
+        this.rating_img += '_half';
+    this.rating_img += '.png';
+    this.address = this.res.location.address1 + " " + this.res.location.city + " " + this.res.location.country;
+}
+
+var View = function () {
     var self = this;
     // locations that will be shown when searching for some places
     this.shownLocations = ko.observableArray([]);
@@ -7,34 +16,7 @@ var Map = function () {
         zoom: 2,
         center: new google.maps.LatLng(2.8, -187.3)
     });
-    var searchBox = new google.maps.places.SearchBox(document.getElementById('search-field'), {
-        bounds: new google.maps.LatLngBounds(
-            new google.maps.LatLng(-90, -180),
-            new google.maps.LatLng(90, 180)
-        )
-    });
-    searchBox.addListener('places_changed', function () {
-        var places = searchBox.getPlaces();
-        self.shownLocations.removeAll();
-        places.forEach(function (place) {
-            //console.log(place);
-            var icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
 
-            self.shownLocations.push({
-                map: map,
-                icon: icon,
-                title: place.formatted_address,
-                position: place.geometry.location,
-                viewport: place.geometry.viewport
-            })
-        });
-    });
     var markers = [];
     this.addMarker = function (data, event) {
         markers.push(new google.maps.Marker(data));
@@ -45,15 +27,34 @@ var Map = function () {
         else {
             bounds.extend(data.position);
         }
-        
+
         map.fitBounds(bounds);
+    }
+    this.term = '';
+    this.area = '';
+    this.searchLocation = function () {
+        console.log(1);
+        var data = {
+            term: this.term,
+            location: this.area,
+            limit: 10
+        }
+        $.getJSON('http://127.0.0.1:8081/', data, function(data) {
+            console.log(data.businesses);
+            self.shownLocations.removeAll();
+            data.businesses.forEach(function(place) {
+                self.shownLocations.push(new Location(place));
+                console.log(place);
+            })
+        })
+
     }
 }
 
 
 var ViewModel = function () {
     self = this;
-    this.map = new Map();
+    this.view = new View();
 }
 
 ko.applyBindings(new ViewModel());
