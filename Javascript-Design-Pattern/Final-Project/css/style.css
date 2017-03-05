@@ -11,9 +11,13 @@ body {
     margin: 0 30px;
 }
 
-h4, p {
+h4, h6, p {
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+h6 {
+    color: #1E90FF;
 }
 
 ul {
@@ -54,7 +58,7 @@ li {
     width: 100%;
     margin-bottom: 10px;
 }
-.res-container:hover {
+.res-img:hover {
     border: 1px solid #D3D3D3;
     cursor: pointer;
 }
@@ -75,10 +79,27 @@ li {
     
 }
 
+.right-res-item {
+    padding-left: 50px;
+}
+
 .res-snipet-image {
     float: left;
     width: 32px;
     height: 32px;
     padding: 5px;
+}
+
+.review {
+    
+}
+
+.review .res-img img {
+    width: 60px;
+    height: 60px;
+}
+
+.time {
+    color: gray;
 }
 

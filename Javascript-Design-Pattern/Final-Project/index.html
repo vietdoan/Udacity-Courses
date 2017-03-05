@@ -35,25 +35,41 @@
     </form>
     <div class='row'>
         <div class='col-sm-offset-1 col-sm-6' data-bind='foreach: shownLocations'>
-            <div class='res-container' data-bind='click: $parent.clickLocation'>
-                <div class='res-img'>
+            <div class='res-container'>
+                <div class='res-img' data-bind='click: $parent.clickLocation'>
                     <img data-bind='attr: {src: res.image_url}'>
                 </div>
                 <div class='res-item'>
                     <h4 data-bind="text: res.name"></h4>
                     <div class='res-item'>
-                        <img data-bind='attr: {src: rating_img}'>
+                        <img data-bind='attr: {src: $parent.getRatingImg(res.rating)}'>
                         <p data-bind='text: res.review_count + " reviews"'></p>
                         <p data-bind='text: res.price'></p>
                     </div>
-                    <div class='res-item'>
+                    <div class='res-item right-res-item'>
                         <p data-bind='text: address'></p>
                         <p data-bind='text: "Phone: " + res.phone'></p>
                         <span class='label label-success' data-bind="text: res.is_closed ? 'Close' : 'is now opened'"></span>
                     </div>
+                    <div class='res-item'>
+                        <button class='btn btn-success' type='submit' data-bind='visible: res.id == $parent.clickedId(), click: $parent.addMarker'>Add</button>
+                    </div>
                 </div>
 
 
+            </div>
+        </div>
+        <div class='col-sm-4 review' data-bind='foreach: reviews'>
+            <div class='res-container'>
+                <div class='res-img'>
+                    <img data-bind='attr: {src: user.image_url}'>
+                    <h6 data-bind='text: user.name'></h6>
+                </div>
+                <div class='res-item'>
+                    <img data-bind='attr: {src: $parent.getRatingImg(rating)}'>
+                    <p class='time' data-bind='text: time_created'></p>
+                    <p data-bind='text: text'></p>
+                </div>
             </div>
         </div>
     </div>
