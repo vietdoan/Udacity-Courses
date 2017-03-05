@@ -9,6 +9,6 @@
   "author": "vietdoan",
   "license": "ISC",
   "dependencies": {
-    "yelp-api-v3": "^1.5.0"
+    "superagent": "^3.5.0"
   }
 }

@@ -1,12 +1,6 @@
-var Yelp = require('yelp-api-v3');
 var http = require("http");
+var request = require('superagent');
 var url = require('url');
-
-var yelp = new Yelp({
-    app_id: '7vpJnElmvwPVwJPXg_SyWA',
-    app_secret: 'Vr7YHS9IyKLSTU6WZJ1Mqrg7qjvTKPFjtAq88xpzNeplWLK15eleMr0y6MVv8o2Q'
-});
-
 
 http.createServer(function (req, res) {
 
@@ -15,13 +9,32 @@ http.createServer(function (req, res) {
     console.log(query);
     res.setHeader('Content-Type', 'application/json');
     res.setHeader("Access-Control-Allow-Origin", "*");
-    yelp.search(query)
-        .then(function (data) {
-            res.end(data);
-        })
-        .catch(function (err) {
-            res.end(err);
-        });
+    if (query.id) {
+        request
+            .get('https://api.yelp.com/v3/businesses/' + query.id + '/reviews')
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .set('Authorization', 'Bearer kViP15Mt5VWhlvV-3sMAhNnFQAuzhiUIvsP6cWLwE_1MqYNjWAdyhXOmhhumoF7gKUGyJHmFA120xFWK8hOZl040x4MeC_r014PcTqpwAnk28Eh1HrgZ1pLxA2O1WHYx')
+            .end(function (err, result) {
+                if (err)
+                    res.end();
+                else
+                    res = res.end(JSON.stringify(result.body));
+            });
+    }
+    else {
+        request
+            .get('https://api.yelp.com/v3/businesses/search')
+            .query(query)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .set('Authorization', 'Bearer kViP15Mt5VWhlvV-3sMAhNnFQAuzhiUIvsP6cWLwE_1MqYNjWAdyhXOmhhumoF7gKUGyJHmFA120xFWK8hOZl040x4MeC_r014PcTqpwAnk28Eh1HrgZ1pLxA2O1WHYx')
+            .end(function (err, result) {
+                if (err)
+                    res.end();
+                else
+                    res = res.end(JSON.stringify(result.body));
+                
+            });
+    }
 }).listen(8081);
 
-console.log('Server running at http://127.0.0.1:8081/');
+console.log('Server running at http://127.0.0.1:8081/'); 

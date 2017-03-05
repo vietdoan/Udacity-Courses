@@ -16,51 +16,51 @@
     <div class='row'>
         <div id='ggmap' class='col-sm-10 col-sm-offset-1'></div>
     </div>
-    <div data-bind='with: view'>
-        <form class='form-group' data-bind='submit: searchLocation'>
-            <div class='row'>
-                <div class='col-sm-offset-1 col-sm-4'>
-                    <div class='input-group'>
-                        <span class='input-group-addon'>Find</span>
-                        <input type='text' class='form-control' id='search-term' placeholder='food, dinner, lunch, restaurant,...' data-bind='value: term'>
-                    </div>
-                </div>
-                <div class='col-sm-4'>
-                    <div class='input-group'>
-                        <span class='input-group-addon'>Near</span>
-                        <input type='text' class='form-control' id='search-location' placeholder='address, neighborhood, city, state or zip' data-bind='value: area'>
-                    </div>
-                </div>
-                <button class='btn btn-default' type='submit'>Search</button>
-            </div>
-        </form>
+    <form class='form-group' data-bind='submit: searchLocation'>
         <div class='row'>
-            <div class='col-sm-offset-1 col-sm-6' data-bind='foreach: shownLocations'>
-                <div class='res-container'>
-                    <div class='res-img'>
-                        <img data-bind='attr: {src: res.image_url}'>
+            <div class='col-sm-offset-1 col-sm-4'>
+                <div class='input-group'>
+                    <span class='input-group-addon'>Find</span>
+                    <input type='text' class='form-control' id='search-term' placeholder='food, dinner, lunch, restaurant,...' data-bind='value: term'>
+                </div>
+            </div>
+            <div class='col-sm-4'>
+                <div class='input-group'>
+                    <span class='input-group-addon'>Near</span>
+                    <input type='text' class='form-control' id='search-location' placeholder='address, neighborhood, city, state or zip' data-bind='value: area'>
+                </div>
+            </div>
+            <button class='btn btn-default' type='submit'>Search</button>
+        </div>
+    </form>
+    <div class='row'>
+        <div class='col-sm-offset-1 col-sm-6' data-bind='foreach: shownLocations'>
+            <div class='res-container' data-bind='click: $parent.clickLocation'>
+                <div class='res-img'>
+                    <img data-bind='attr: {src: res.image_url}'>
+                </div>
+                <div class='res-item'>
+                    <h4 data-bind="text: res.name"></h4>
+                    <div class='res-item'>
+                        <img data-bind='attr: {src: rating_img}'>
+                        <p data-bind='text: res.review_count + " reviews"'></p>
+                        <p data-bind='text: res.price'></p>
                     </div>
                     <div class='res-item'>
-                        <h4 data-bind='text: res.name'></h4>
-                        <div class='res-item'>
-                            <img data-bind='attr: {src: rating_img}'>
-                            <p data-bind='text: res.review_count + " reviews"'></p>
-                            <p data-bind='text: res.price'></p>
-                        </div>
-                        <div class='res-item'>
-                            <p data-bind='text: address'></p>
-                            <p data-bind='text: "Phone: " + res.phone'></p>
-                        </div>
+                        <p data-bind='text: address'></p>
+                        <p data-bind='text: "Phone: " + res.phone'></p>
+                        <span class='label label-success' data-bind="text: res.is_closed ? 'Close' : 'is now opened'"></span>
                     </div>
-
-
                 </div>
+
+
             </div>
         </div>
-        <script src='lib/jquery-3.1.1.min.js'></script>
-        <script src='lib/knockout-3.4.1.js'></script>
-        <script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD0CAaK08V00HNBekjLkQnkX9YyZvqfbYI"></script>
-        <script src='js/app.js'></script>
+    </div>
+    <script src='lib/jquery-3.1.1.min.js'></script>
+    <script src='lib/knockout-3.4.1.js'></script>
+    <script src="http://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyD0CAaK08V00HNBekjLkQnkX9YyZvqfbYI"></script>
+    <script src='js/app.js'></script>
 </body>
 
 </html>
